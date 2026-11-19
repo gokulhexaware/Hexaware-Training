@@ -1,0 +1,156 @@
+                         DAY 8 - SET 2
+                      AIRLINE SEAT BOOKING
+
+
+1. TRANSACTION PROCESS
+
+The airline booking process uses a SQL Server transaction.
+
+The transaction checks seat availability, inserts the booking and updates the seat status.
+
+BEGIN TRANSACTION starts the transaction.
+
+COMMIT TRANSACTION saves all changes.
+
+ROLLBACK TRANSACTION cancels all changes if an error occurs.
+
+TRY...CATCH handles transaction errors.
+
+A unique constraint on SeatID prevents duplicate bookings.
+
+
+2. READ COMMITTED CONCURRENCY TEST
+
+Open two separate SSMS query windows.
+
+Use the same AirlineBookingDB database.
+
+Reset seat A2 before testing:
+
+UPDATE Seats SET SeatStatus='Available' WHERE SeatID=2;
+DELETE FROM Bookings WHERE SeatID=2;
+
+
+SESSION 1:
+
+USE AirlineBookingDB;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+BEGIN TRANSACTION;
+SELECT * FROM Seats WHERE SeatID=2;
+WAITFOR DELAY '00:00:15';
+INSERT INTO Bookings(FlightID,PassengerID,SeatID,Fare)
+VALUES(1,101,2,5000);
+UPDATE Seats SET SeatStatus='Booked' WHERE SeatID=2;
+COMMIT TRANSACTION;
+
+
+SESSION 2:
+
+USE AirlineBookingDB;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+BEGIN TRANSACTION;
+SELECT * FROM Seats WHERE SeatID=2;
+WAITFOR DELAY '00:00:20';
+-- Attempt to reserve the same seat
+UPDATE Seats SET SeatStatus='Booked'
+WHERE SeatID=2 AND SeatStatus='Available';
+IF @@ROWCOUNT=1
+BEGIN
+INSERT INTO Bookings(FlightID,PassengerID,SeatID,Fare)
+VALUES(1,102,2,4500);
+END;
+COMMIT TRANSACTION;
+
+
+OBSERVATION:
+
+Under READ COMMITTED, ordinary SELECT statements do not hold shared locks until the end of the transaction.
+
+Two customers can initially read the same seat as available.
+
+The conditional UPDATE and unique booking constraint prevent both customers from completing the booking.
+
+
+3. SERIALIZABLE CONCURRENCY TEST
+
+Reset seat A3 before testing:
+
+UPDATE Seats SET SeatStatus='Available' WHERE SeatID=3;
+DELETE FROM Bookings WHERE SeatID=3;
+
+
+SESSION 1:
+
+USE AirlineBookingDB;
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+BEGIN TRANSACTION;
+SELECT * FROM Seats WITH(UPDLOCK,HOLDLOCK)
+WHERE SeatID=3 AND SeatStatus='Available';
+WAITFOR DELAY '00:00:15';
+INSERT INTO Bookings(FlightID,PassengerID,SeatID,Fare)
+VALUES(1,101,3,5000);
+UPDATE Seats SET SeatStatus='Booked' WHERE SeatID=3;
+COMMIT TRANSACTION;
+
+
+SESSION 2:
+
+USE AirlineBookingDB;
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+BEGIN TRANSACTION;
+SELECT * FROM Seats WITH(UPDLOCK,HOLDLOCK)
+WHERE SeatID=3 AND SeatStatus='Available';
+IF @@ROWCOUNT=1
+BEGIN
+INSERT INTO Bookings(FlightID,PassengerID,SeatID,Fare)
+VALUES(1,102,3,4500);
+UPDATE Seats SET SeatStatus='Booked' WHERE SeatID=3;
+END;
+COMMIT TRANSACTION;
+
+
+OBSERVATION:
+
+SERIALIZABLE uses stronger locking and prevents conflicting transactions from reserving the same seat.
+
+Session 2 waits for Session 1 to complete.
+
+After Session 1 commits, Session 2 finds that the seat is already booked.
+
+
+4. RANK AND DENSE_RANK
+
+RANK assigns the same rank to passengers with tied fares.
+
+The next rank is skipped after a tie.
+
+DENSE_RANK assigns the same rank to tied fares without skipping the next rank.
+
+
+5. RUNNING REVENUE
+
+SUM(Fare) OVER calculates the cumulative revenue for each flight.
+
+PARTITION BY FlightID separates revenue calculations by flight.
+
+ORDER BY BookingDate and BookingID determines the running order.
+
+
+6. MONGODB TRANSACTION
+
+MongoDB uses a session and transaction to update the seat document and insert the booking document.
+
+Both operations are committed together.
+
+If booking insertion fails, the seat update is rolled back.
+
+
+7. CONCLUSION
+
+Transactions maintain booking consistency.
+
+Unique constraints prevent duplicate seat reservations.
+
+SERIALIZABLE provides stronger concurrency protection than READ COMMITTED.
+
+MongoDB transactions provide atomicity across the seat and booking documents.

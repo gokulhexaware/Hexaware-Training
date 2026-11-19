@@ -1,0 +1,135 @@
+                         DAY 8 - SET 1
+                       BANK FUNDS TRANSFER
+
+
+1. READ COMMITTED ISOLATION
+
+READ COMMITTED is the default isolation level in SQL Server.
+
+It prevents dirty reads.
+
+A transaction cannot read data that another transaction has modified but not committed.
+
+Example:
+
+Session 1:
+
+USE BankTransferDB;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+BEGIN TRANSACTION;
+UPDATE IsolationDemo
+SET DemoValue=DemoValue
+WHERE DemoID=1;
+WAITFOR DELAY '00:00:20';
+COMMIT TRANSACTION;
+
+Session 2:
+
+USE BankTransferDB;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SELECT DemoValue
+FROM IsolationDemo
+WHERE DemoID=1;
+
+Observation:
+
+Session 2 waits while Session 1 holds the exclusive lock.
+
+After Session 1 commits, Session 2 reads the committed value.
+
+
+2. SNAPSHOT ISOLATION
+
+SNAPSHOT isolation provides a consistent view of data using row versioning.
+
+Readers can access previously committed versions without waiting for writers.
+
+Enable SNAPSHOT isolation:
+
+USE master;
+ALTER DATABASE BankTransferDB
+SET ALLOW_SNAPSHOT_ISOLATION ON;
+
+Session 1:
+
+USE BankTransferDB;
+SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
+BEGIN TRANSACTION;
+SELECT DemoValue
+FROM IsolationDemo
+WHERE DemoID=1;
+WAITFOR DELAY '00:00:20';
+SELECT DemoValue
+FROM IsolationDemo
+WHERE DemoID=1;
+COMMIT TRANSACTION;
+
+Session 2:
+
+USE BankTransferDB;
+UPDATE IsolationDemo
+SET DemoValue=DemoValue+10
+WHERE DemoID=1;
+
+Observation:
+
+Session 1 reads the same original value in both SELECT statements.
+
+Session 2 can update and commit the row while Session 1 is reading it.
+
+SNAPSHOT isolation provides a transaction-level consistent view of data.
+
+
+3. DIFFERENCE BETWEEN READ COMMITTED AND SNAPSHOT
+
+READ COMMITTED:
+
+- Prevents dirty reads.
+- Normally uses shared locks for reading.
+- A reader can wait for a writer.
+- Data can change between separate statements in the same transaction.
+
+SNAPSHOT:
+
+- Prevents dirty reads.
+- Uses row versioning.
+- Readers generally do not block writers.
+- Provides a consistent transaction-level snapshot.
+- Can produce update conflicts when concurrent transactions modify the same data.
+
+
+4. MONGODB MULTI-DOCUMENT TRANSACTION
+
+MongoDB supports multi-document transactions using sessions.
+
+For the bank transfer:
+
+- Start a session.
+- Start a transaction.
+- Debit the source account.
+- Credit the destination account.
+- Insert the debit and credit transaction records.
+- Commit all operations together.
+
+If any operation fails, abort the transaction.
+
+This ensures that the debit and credit operations succeed together or are rolled back together.
+
+
+5. COST OF MONGODB TRANSACTIONS
+
+- Transactions require additional processing and coordination.
+- They can increase memory and storage overhead.
+- They can increase latency compared with single-document updates.
+- Concurrent transactions can result in write conflicts and retries.
+- Multi-document transactions require a replica set or supported sharded cluster.
+- They should be used only when multiple documents must be changed atomically.
+
+
+6. CONCLUSION
+
+READ COMMITTED prevents dirty reads but can cause readers to wait for writers.
+
+SNAPSHOT uses row versioning to provide a consistent view of data.
+
+MongoDB multi-document transactions maintain consistency when multiple documents must be updated together.

@@ -1,0 +1,98 @@
+                         DAY 8 - SET 3
+                   RETAIL INVENTORY RESERVATION
+
+
+1. STOCK RESERVATION TRANSACTION
+
+When a customer places an order, the retailer must reserve the required stock.
+
+The SQL Server transaction performs the following operations:
+
+- Check product availability.
+- Verify sufficient stock.
+- Insert the order.
+- Decrease product stock.
+- Insert order lines.
+- Commit all changes together.
+
+If stock is insufficient, the transaction is rolled back.
+
+This prevents incomplete orders and incorrect stock quantities.
+
+
+2. CORRELATED SUBQUERY
+
+A correlated subquery uses a value from the outer query.
+
+In this assignment, each product's stock is compared with the average stock of products in its category.
+
+The query returns products whose stock is below their category average.
+
+
+3. CTE AND ROW_NUMBER
+
+A Common Table Expression calculates total sales for each product.
+
+ROW_NUMBER assigns a sales ranking within each category.
+
+PARTITION BY CategoryName creates a separate ranking for each category.
+
+The final query returns the top three products from every category.
+
+
+4. LEAD AND LAG
+
+LAG retrieves the previous month's sales for a product.
+
+LEAD retrieves the next month's sales for a product.
+
+The difference between current and previous month sales shows the month-on-month change.
+
+These functions help analyse sales trends.
+
+
+5. MONGODB SINGLE-DOCUMENT ATOMIC UPDATE
+
+MongoDB supports atomic updates to a single document.
+
+The $inc operator increases or decreases a numeric field.
+
+For stock reservation:
+
+$inc:{stockQuantity:-2}
+
+This decreases stock by two units.
+
+A stock availability condition ensures that the update occurs only when sufficient stock is available.
+
+The update is atomic for the individual product document.
+
+
+6. WHEN MONGODB TRANSACTIONS ARE REQUIRED
+
+A single-document atomic update is sufficient when only one product document needs to be updated.
+
+A multi-document transaction is required when an operation must atomically modify multiple documents.
+
+For example:
+
+- Update stock in multiple product documents.
+- Insert an order document.
+- Insert multiple order-line documents.
+
+If all these changes must succeed or fail together, a multi-document transaction is appropriate.
+
+
+7. CONCLUSION
+
+SQL Server transactions protect stock and order consistency.
+
+Correlated subqueries identify below-average inventory.
+
+CTEs and ROW_NUMBER identify top-selling products.
+
+LEAD and LAG analyse monthly sales changes.
+
+MongoDB $inc provides atomic single-document stock updates.
+
+Multi-document transactions are useful when several documents must change together.
