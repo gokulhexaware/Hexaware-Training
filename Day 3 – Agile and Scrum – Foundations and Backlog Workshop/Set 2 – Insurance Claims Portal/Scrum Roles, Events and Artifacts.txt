@@ -1,0 +1,41 @@
+# Scrum Roles, Events and Artifacts – InsureAssist
+
+## 1. Scrum Roles
+
+**Product Owner:** Responsible for defining the product vision, maintaining the Product Backlog and prioritising user stories according to business value.
+
+**Scrum Master:** Ensures that Scrum practices are followed, facilitates Scrum events and helps the team remove obstacles.
+
+**Developers:** Responsible for designing, developing, testing and delivering the product increment during each Sprint.
+
+## 2. Scrum Events
+
+**Sprint:** A fixed period during which the team works to complete selected backlog items.
+
+**Sprint Planning:** The team discusses the Sprint Goal and selects user stories from the Product Backlog.
+
+**Daily Scrum:** A 15-minute meeting where developers discuss progress, plans and obstacles.
+
+**Sprint Review:** The team demonstrates completed functionality to stakeholders and collects feedback.
+
+**Sprint Retrospective:** The team discusses what went well, what could be improved and how to improve the next Sprint.
+
+## 3. Scrum Artifacts
+
+**Product Backlog:** A prioritised list of all features, improvements and requirements of the Insurance Claims Portal.
+
+**Sprint Backlog:** The selected user stories and work planned for completion during a Sprint.
+
+**Increment:** The completed and usable functionality delivered at the end of a Sprint.
+
+## 4. Artifact Commitments
+
+**Product Goal:** The long-term objective of providing a secure and efficient Insurance Claims Portal.
+
+**Sprint Goal:** The specific objective the team aims to achieve during a Sprint.
+
+**Definition of Done:** The quality criteria that must be satisfied before a user story can be considered complete.
+
+## Conclusion
+
+Scrum helps the InsureAssist team deliver the Insurance Claims Portal incrementally, improve collaboration, receive regular stakeholder feedback and maintain product quality.

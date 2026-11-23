@@ -1,0 +1,60 @@
+# Estimated Product Backlog – InsureAssist
+## Insurance Claims Portal
+
+### 1. Introduction
+
+The Product Backlog contains the features and functionalities required for the Insurance Claims Portal. The user stories are organised into four Epics and prioritised according to business value. Story points are assigned using the Fibonacci estimation technique.
+
+### 2. Estimated Product Backlog
+
+| Story ID | User Story | Epic | Priority | Story Points |
+|---|---|---|---|---:|
+| IC-01 | Customer Login | Claim Registration | Highest | 3 |
+| IC-02 | Select Insurance Policy | Claim Registration | Highest | 3 |
+| IC-03 | Submit Insurance Claim | Claim Registration | Highest | 8 |
+| IC-04 | Upload Supporting Documents | Document Upload | Highest | 5 |
+| IC-05 | View Uploaded Documents | Document Upload | Medium | 2 |
+| IC-06 | Replace Incorrect Document | Document Upload | Medium | 3 |
+| IC-07 | View Claim Reference Number | Claim Tracking | Highest | 2 |
+| IC-08 | View Claim Status | Claim Tracking | Highest | 3 |
+| IC-09 | View Claim History | Claim Tracking | Low | 5 |
+| IC-10 | Claim Status Notifications | Settlement Notifications | Medium | 3 |
+| IC-11 | Settlement Approval Notifications | Settlement Notifications | Medium | 3 |
+| IC-12 | Settlement Payment Notifications | Settlement Notifications | Low | 5 |
+| | **Total** | | | **45** |
+
+### 3. Story Point Estimation Technique
+
+Planning Poker is an estimation technique used by Agile Scrum teams to estimate the complexity, effort and uncertainty involved in completing user stories.
+
+The team uses Fibonacci-style values:
+
+**1, 2, 3, 5, 8, 13**
+
+Each team member independently selects an estimate. The team discusses differences and agrees on a final story point value.
+
+### 4. Planning Poker Example
+
+**User Story:** IC-03 – Submit Insurance Claim
+
+Three developers provided different estimates:
+
+- Developer 1: 5 Story Points
+- Developer 2: 8 Story Points
+- Developer 3: 13 Story Points
+
+**Discussion:** The team discussed the complexity of claim submission, mandatory field validation, insurance policy eligibility checks and generation of a unique claim reference number.
+
+**Final Estimate:** 8 Story Points.
+
+The team agreed on 8 points because the story involves several validations and business rules, but its scope is manageable within the planned development work.
+
+### 5. Total Backlog Estimation
+
+The story point estimates for all 12 user stories were added together.
+
+**Total Estimated Backlog = 45 Story Points**
+
+### 6. Conclusion
+
+The InsureAssist Product Backlog contains 12 user stories grouped under four Epics. Each story has been prioritised based on business importance and estimated using Planning Poker. The total estimated backlog size is 45 Story Points. This estimation helps the Scrum team plan Sprints, allocate work and track project progress effectively.
