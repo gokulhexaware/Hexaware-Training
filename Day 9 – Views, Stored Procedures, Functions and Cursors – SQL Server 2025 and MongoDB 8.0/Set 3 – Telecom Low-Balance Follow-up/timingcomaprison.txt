@@ -1,0 +1,24 @@
+
+CURSOR VS SET-BASED APPROACH
+Project: Telecom Low-Balance Follow-up
+The cursor approach processes prepaid subscribers one by one. It checks whether each active prepaid subscriber has a balance below 50 currency units. If the condition is satisfied, a notification is inserted into the NotificationLog table.
+The set-based approach performs the same operation using a single INSERT...SELECT statement. It identifies all eligible subscribers and inserts their notification records together.
+CURSOR APPROACH:
+1. Processes subscribers one at a time.
+2. Uses DECLARE, OPEN, FETCH, WHILE and CLOSE statements.
+3. Requires more code.
+4. Takes more time when processing a large number of subscribers.
+5. Useful when individual subscriber processing is required.
+SET-BASED APPROACH:
+1. Processes multiple subscribers in one operation.
+2. Uses INSERT...SELECT.
+3. Requires less code.
+4. Usually provides better performance for large datasets.
+5. Easier to maintain and execute.
+TIMING COMPARISON:
+Execution time is measured in microseconds using DATEDIFF in SQL Server. SET STATISTICS TIME ON is also used to display SQL Server execution statistics.
+The cursor approach performs an individual insert for every eligible subscriber. The set-based approach inserts all matching notification records in one statement.
+Actual execution time depends on the number of subscribers, database size, server resources and execution conditions.
+The measured cursor and set-based execution times should be recorded after running cursor.sql.
+CONCLUSION:
+Both approaches produce the same notification records for the given requirement. However, the set-based approach is generally preferred because it processes multiple records together and is easier to maintain. The cursor approach is useful when individual subscriber processing is required.

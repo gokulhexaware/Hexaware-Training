@@ -1,0 +1,21 @@
+CURSOR VS SET-BASED APPROACH
+Project: Retail Order Fulfilment
+The cursor approach processes one order at a time. It checks whether the order is pending for more than three days and inserts a follow-up record if one does not already exist.
+The set-based approach performs the same operation using a single INSERT...SELECT statement. It checks all eligible orders together and inserts the required follow-up records.
+CURSOR APPROACH:
+1. Processes records one by one.
+2. Uses DECLARE, OPEN, FETCH, WHILE and CLOSE statements.
+3. Requires more code.
+4. Takes more time when processing a large number of records.
+5. Useful when individual record processing is required.
+SET-BASED APPROACH:
+1. Processes multiple records in one statement.
+2. Uses INSERT...SELECT.
+3. Requires less code.
+4. Usually provides better performance for large datasets.
+5. Easier to maintain and execute.
+PERFORMANCE COMPARISON:
+The cursor approach requires repeated processing for individual orders. The set-based approach handles all matching orders in one operation, reducing the number of individual database operations.
+The execution time can be measured using SET STATISTICS TIME ON in SQL Server.
+CONCLUSION:
+Both approaches produce the same result for the given requirement. However, the set-based approach is preferred because it is simpler, more efficient and easier to maintain. The cursor approach is useful when individual record processing is necessary.

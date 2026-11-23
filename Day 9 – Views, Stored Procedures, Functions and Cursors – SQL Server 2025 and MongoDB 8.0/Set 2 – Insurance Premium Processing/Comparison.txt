@@ -1,0 +1,22 @@
+
+CURSOR VS SET-BASED APPROACH
+Project: Insurance Premium Processing
+The cursor approach processes policies one by one. It checks whether the premium due date has passed, whether the payment is unpaid and whether the policy is active. If all conditions are satisfied, the policy status is changed to Lapsed and an audit log is inserted.
+The set-based approach performs the same operation for all matching policies using an UPDATE statement with OUTPUT. It updates the policy status and inserts the corresponding log records together.
+CURSOR APPROACH:
+1. Processes one policy at a time.
+2. Uses DECLARE, OPEN, FETCH, WHILE and CLOSE statements.
+3. Requires more code.
+4. Takes more time when processing a large number of policies.
+5. Useful when individual record processing is required.
+SET-BASED APPROACH:
+1. Processes multiple policies in one operation.
+2. Uses UPDATE with OUTPUT and INSERT statements.
+3. Requires less code.
+4. Usually provides better performance for large datasets.
+5. Easier to maintain and execute.
+PERFORMANCE COMPARISON:
+The cursor approach performs individual updates and logging operations for each policy. The set-based approach updates all matching policies together and captures their previous statuses using the OUTPUT clause.
+Execution time can be measured using SET STATISTICS TIME ON in SQL Server.
+CONCLUSION:
+Both approaches achieve the same business requirement. However, the set-based approach is generally preferred because it reduces individual database operations and is easier to maintain. The cursor approach is useful when each policy requires separate processing.
