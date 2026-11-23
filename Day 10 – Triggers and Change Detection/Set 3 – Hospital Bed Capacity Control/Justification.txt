@@ -1,0 +1,20 @@
+
+HOSPITAL BED CAPACITY CONTROL – WRITTEN JUSTIFICATION
+1. WHY A TRIGGER IS USED
+A trigger is used to prevent new admissions when a hospital ward has reached its bed capacity. It automatically checks the number of occupied beds whenever a new admission is inserted.
+2. WHY AN INSTEAD OF INSERT TRIGGER IS USED
+The INSTEAD OF INSERT trigger checks the ward capacity before allowing an admission. It prevents the insertion if the number of occupied beds exceeds the available capacity.
+3. WHY AN AFTER TRIGGER IS USED
+The AFTER INSERT, UPDATE and DELETE trigger maintains an audit history of all admission changes. It records the admission ID, patient name, old ward, new ward, action type, user and time.
+4. WHEN A CONSTRAINT IS BETTER THAN A TRIGGER
+A constraint is better when the business rule is simple and can be checked directly on a single row. For example, a CHECK constraint can ensure that ward capacity is greater than zero.
+However, checking occupied beds against total ward capacity requires comparing multiple admission records. A normal CHECK constraint cannot perform this type of cross-row validation.
+5. WHEN A STORED PROCEDURE IS BETTER THAN A TRIGGER
+A stored procedure is better when admission processing involves multiple steps, such as checking patient details, checking available beds, assigning doctors and confirming admission.
+Stored procedures make the process explicit and allow the application to call the required operations directly.
+6. WHY TRIGGERS ARE USEFUL IN THIS SCENARIO
+Triggers automatically enforce database rules even when multiple rows are inserted together. They also maintain an audit history without requiring every application operation to write audit records separately.
+7. MULTI-ROW INSERT BEHAVIOUR
+When multiple admissions are inserted together and one ward exceeds its capacity, the trigger rejects the entire INSERT statement. This prevents partial admission records from being inserted.
+8. CONCLUSION
+Triggers are useful for enforcing hospital bed capacity rules and maintaining admission history. Constraints are suitable for simple validation, while stored procedures are useful for complex admission workflows. The correct approach depends on the business requirement.

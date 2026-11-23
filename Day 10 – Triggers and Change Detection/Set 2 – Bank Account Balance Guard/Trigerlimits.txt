@@ -1,0 +1,32 @@
+
+BANK ACCOUNT BALANCE GUARD – TRIGGER LIMITS
+1. NESTED TRIGGERS
+Nested triggers occur when one trigger performs an operation that activates another trigger. This can create multiple levels of trigger execution. SQL Server supports nested triggers up to 32 levels.
+2. RECURSIVE TRIGGERS
+Recursive triggers occur when a trigger causes the same trigger to execute again. This can happen when a trigger updates the table on which it is defined.
+3. PROBLEMS WITH NESTED AND RECURSIVE TRIGGERS
+- They can create unexpected database operations.
+- They can affect database performance.
+- They make debugging difficult.
+- They can cause infinite loops or reach the maximum nesting level.
+4. HOW TO PREVENT TRIGGER LOOPS
+- Use TRIGGER_NESTLEVEL() to check the current trigger execution level.
+- Check whether the data actually needs to be updated before performing another update.
+- Avoid unnecessary updates inside triggers.
+- Use RECURSIVE_TRIGGERS OFF to prevent direct recursive triggers at the database level.
+- Use nested triggers configuration carefully.
+Example:
+IF TRIGGER_NESTLEVEL()>1
+RETURN;
+This guard can prevent unwanted repeated trigger execution, but should only be used when deeper execution is not required.
+5. TRIGGER LIMITATIONS
+- Trigger logic can be hidden from application developers.
+- Multiple triggers can make debugging difficult.
+- Excessive trigger execution can reduce performance.
+- Audit tables can still be modified by users with sufficient database permissions.
+6. MONGODB CHANGE STREAMS
+MongoDB Change Streams monitor changes in collections and notify applications about database events. In this assignment, the fraud_alerts collection is monitored for new insert operations.
+7. REPLICA SET REQUIREMENT
+MongoDB Change Streams require a replica set or sharded cluster. They use the MongoDB replication oplog to identify database changes.
+8. CONCLUSION
+SQL Server triggers automatically execute database logic when INSERT, UPDATE or DELETE operations occur. MongoDB Change Streams allow applications to listen for database changes and react to them. Both approaches help monitor important database operations.

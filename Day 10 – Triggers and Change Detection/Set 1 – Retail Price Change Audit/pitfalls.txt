@@ -1,0 +1,18 @@
+
+TRIGGER PITFALLS – SET 1
+1. Hidden Logic
+Triggers execute automatically when an operation happens. Developers may not know that additional operations are running in the background. This makes debugging and maintenance difficult.
+2. Cascading Triggers
+One trigger can perform an operation that activates another trigger. This can create multiple unwanted operations, performance issues and unexpected results.
+WHEN APPLICATION CODE IS BETTER
+Application code is better when business rules are complex and require multiple validations, user-specific conditions or external service calls. It is easier to understand, test and maintain application logic in one place.
+MONGODB CHANGE STREAMS
+MongoDB Change Streams monitor changes made to collections and provide change events to applications. They require a replica set or sharded cluster.
+SQL SERVER TRIGGERS VS MONGODB CHANGE STREAMS
+SQL Server triggers execute automatically inside the database when specified operations occur. MongoDB Change Streams allow an external application to listen for database changes and react to them.
+REPLICA SET REQUIREMENT
+MongoDB Change Streams require a replica set because they use the replication oplog to track database changes.
+AUDIT SECURITY
+An audit table alone is not completely tamper-proof. Appropriate database permissions and restricted access are required to protect audit records from unauthorized modification or deletion.
+CONCLUSION
+Triggers help maintain automatic auditing and enforce database rules. However, they should be designed carefully to avoid hidden logic, cascading operations and performance problems.
